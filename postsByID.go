@@ -30,23 +30,7 @@ type posts_struct struct {
 func postsByID(c *gin.Context) {
 	id := c.Param("id")
 
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-		"password=%s dbname=%s sslmode=require",
-		host, port, user, password, dbname)
-
-	conn, err := sql.Open("postgres", psqlInfo)
-
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-
-	err = conn.Ping()
-
-	if err != nil {
-		log.Fatal(err)
-	} else {
-		fmt.Println("DB Connected!")
-	}
+	conn := connectToDB()
 
 	rows, err := conn.Query("SELECT * FROM blog1 WHERE id=" + id)
 
@@ -88,29 +72,14 @@ func postsByID(c *gin.Context) {
 
 func post_postsByID(c *gin.Context) {
 	id := c.Param("id")
+
 	var post posts_struct
 	decoder := json.NewDecoder(c.Request.Body)
 	if err := decoder.Decode(&post); err != nil {
 		log.Fatal(err)
 	}
 
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-		"password=%s dbname=%s sslmode=require",
-		host, port, user, password, dbname)
-
-	conn, err := sql.Open("postgres", psqlInfo)
-
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-
-	err = conn.Ping()
-
-	if err != nil {
-		log.Fatal(err)
-	} else {
-		fmt.Println("DB Connected!")
-	}
+	conn := connectToDB()
 
 	rows, err := conn.Query("UPDATE blog1 SET title = '"+ post.Title +"', autor = '"+ post.Autor +"', nachricht = '"+ post.Nachricht +"' WHERE id="+ id)
 
@@ -131,5 +100,43 @@ func post_postsByID(c *gin.Context) {
 }
 
 func delete_postsByID(c *gin.Context) {
+	id := c.Param("id")
 
+	conn := connectToDB()
+
+	rows, err := conn.Query("DELETE FROM blog1 WHERE id=" + id)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status": "Deleted",
+	})
+
+	rows.Close()
+	conn.Close()
+}
+
+func connectToDB() *sql.DB {
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+		"password=%s dbname=%s sslmode=require",
+		host, port, user, password, dbname)
+
+	conn, err := sql.Open("postgres", psqlInfo)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	err = conn.Ping()
+
+	if err != nil {
+		log.Fatal(err)
+	} else {
+		fmt.Println("DB Connected!")
+		return conn
+	}
+
+	return nil
 }
