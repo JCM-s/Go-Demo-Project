@@ -12,14 +12,14 @@ func postsByID(c *gin.Context) {
 	})
 
 	/*
-	post := [3]string{"Test1", "Test2", "Test3"}
-	id, err := strconv.ParseInt(c.Param("id"), 16, 64)
+		post := [3]string{"Test1", "Test2", "Test3"}
+		id, err := strconv.ParseInt(c.Param("id"), 16, 64)
 
-	fmt.Println(err)
+		fmt.Println(err)
 
-	c.JSON(http.StatusOK, gin.H{
-		"message": post[id],
-	})
+		c.JSON(http.StatusOK, gin.H{
+			"message": post[id],
+		})
 	*/
 }
 

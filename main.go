@@ -10,14 +10,14 @@ func main() {
 	handleRequests()
 }
 
-func homePage(c *gin.Context){
-    c.JSON(http.StatusOK, gin.H{
+func homePage(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
 		"message": "test",
 	})
 }
 
 func handleRequests() {
-    router := gin.Default()
+	router := gin.Default()
 	router.GET("/", homePage)
 	router.GET("/posts", posts)
 	router.POST("/posts", post_posts)
