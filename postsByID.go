@@ -45,23 +45,27 @@ func postsByID(c *gin.Context) {
 		fmt.Println("DB Connected!")
 	}
 
-	rows, err := conn.Query("SELECT autor FROM blog1 WHERE id=" + c.Param("id"))
+	rows, err := conn.Query("SELECT * FROM blog1 WHERE id=" + c.Param("id"))
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	var title string
 	var autor string
+	var nachricht string
 
 	for rows.Next() {
-		rows.Scan(&autor)
+		rows.Scan(&id, &title, &autor, &nachricht)
 		fmt.Println(autor)
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"ID":       id,
-		"Autor":    autor,
-		"Endpoint": "/posts/" + c.Param("id"),
+		"ID": id,
+		"Title": title,
+		"Autor": autor,
+		"Nachricht": nachricht,
+
 	})
 
 	rows.Close()
@@ -84,5 +88,5 @@ func post_postsByID(c *gin.Context) {
 }
 
 func delete_postsByID(c *gin.Context) {
-	
+
 }
