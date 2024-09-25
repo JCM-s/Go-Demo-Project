@@ -2,6 +2,7 @@ package main
 
 //imports
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -26,7 +27,7 @@ type Post struct {
 	ID     int    `json:"id"`
 	Titel  string `json:"title"`
 	Autor  string `json:"autor"`
-	Inhalt string `json:"inhalt"`
+	Inhalt string `json:"nachricht"`
 }
 
 // GET /posts - Gibt eine liste aller posts aus
@@ -96,15 +97,17 @@ func post_posts(c *gin.Context) {
 	}
 
 	var newPost Post
-	if err := c.BindJSON(&newPost); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+	decoder := json.NewDecoder(c.Request.Body)
+	if err := decoder.Decode(&newPost); err != nil {
+		log.Fatal(err)
 	}
 
 	//soll neuen Post anlegen
+	rows, err := conn.Query("INSERT INTO blog1 (title, autor, nachricht) VALUES ('"+ newPost.Titel +"', '"+ newPost.Autor +"', '"+ newPost.Inhalt +"') RETURNING id")
 
-	err := conn.QueryRow("INSERT INTO blog1 (title, autor, nachricht) VALUES ($1, $2) RETURNING id",
-		newPost.Titel, newPost.Autor, newPost.Inhalt).Scan(&newPost.ID)
+	for rows.Next() {
+		rows.Scan(&newPost.ID)
+	}
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -113,4 +116,6 @@ func post_posts(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, newPost)
 
+	conn.Close()
+	rows.Close()
 }
