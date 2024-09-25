@@ -11,3 +11,7 @@ func posts(c *gin.Context) {
 		"Endpoint": "posts",
 	})
 }
+
+func post_posts(c *gin.Context) {
+	
+}
