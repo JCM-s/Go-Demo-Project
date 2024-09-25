@@ -28,5 +28,5 @@ func post_postsByID(c *gin.Context) {
 }
 
 func delete_postsByID(c *gin.Context) {
-
+	
 }
