@@ -88,11 +88,7 @@ func post_postsByID(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"ID": post.Id,
-		"Title": post.Title,
-		"Autor": post.Autor,
-		"Nachricht": post.Nachricht,
-
+		"Status": "Updated successful",
 	})
 
 	rows.Close()
