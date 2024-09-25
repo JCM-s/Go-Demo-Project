@@ -78,3 +78,11 @@ func postsByID(c *gin.Context) {
 		})
 	*/
 }
+
+func post_postsByID(c *gin.Context) {
+
+}
+
+func delete_postsByID(c *gin.Context) {
+	
+}
