@@ -13,15 +13,6 @@ import (
 	_ "github.com/lib/pq"
 )
 
-// konstanten für die connection zur DB
-const (
-	host     = "e81b45af-1898-41d5-9aaf-077ca48ce2e7.postgresql.eu01.onstackit.cloud"
-	port     = 5432
-	user     = "jonas"
-	password = "l7RkCe5OmB1l78T7hVrbNwu8p9h7VZ9iOxiaCFnybReu8FzguT3XT17bfnWJLK6S"
-	dbname   = "blog"
-)
-
 // Post struktur
 type Post struct {
 	ID     int    `json:"id"`
