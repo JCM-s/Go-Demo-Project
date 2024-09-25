@@ -1,9 +1,9 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
-	"strconv"
 
 	"database/sql"
 	"net/http"
@@ -20,12 +20,15 @@ const (
 	dbname   = "blog"
 )
 
-func postsByID(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
+type posts_struct struct {
+	Id string `json:"ID"`
+	Title string `json:"Title"`
+	Autor string `json:"Autor"`
+	Nachricht string `json:"Nachricht"`
+}
 
-	if err != nil {
-		log.Fatal(err)
-	}
+func postsByID(c *gin.Context) {
+	id := c.Param("id")
 
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=require",
@@ -45,7 +48,7 @@ func postsByID(c *gin.Context) {
 		fmt.Println("DB Connected!")
 	}
 
-	rows, err := conn.Query("SELECT * FROM blog1 WHERE id=" + c.Param("id"))
+	rows, err := conn.Query("SELECT * FROM blog1 WHERE id=" + id)
 
 	if err != nil {
 		log.Fatal(err)
@@ -84,7 +87,47 @@ func postsByID(c *gin.Context) {
 }
 
 func post_postsByID(c *gin.Context) {
+	id := c.Param("id")
+	var post posts_struct
+	decoder := json.NewDecoder(c.Request.Body)
+	if err := decoder.Decode(&post); err != nil {
+		log.Fatal(err)
+	}
 
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+		"password=%s dbname=%s sslmode=require",
+		host, port, user, password, dbname)
+
+	conn, err := sql.Open("postgres", psqlInfo)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	err = conn.Ping()
+
+	if err != nil {
+		log.Fatal(err)
+	} else {
+		fmt.Println("DB Connected!")
+	}
+
+	rows, err := conn.Query("UPDATE blog1 SET title = '"+ post.Title +"', autor = '"+ post.Autor +"', nachricht = '"+ post.Nachricht +"' WHERE id="+ id)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"ID": post.Id,
+		"Title": post.Title,
+		"Autor": post.Autor,
+		"Nachricht": post.Nachricht,
+
+	})
+
+	rows.Close()
+	conn.Close()
 }
 
 func delete_postsByID(c *gin.Context) {
