@@ -12,14 +12,6 @@ import (
 	_ "github.com/lib/pq"
 )
 
-const (
-	host     = "e81b45af-1898-41d5-9aaf-077ca48ce2e7.postgresql.eu01.onstackit.cloud"
-	port     = 5432
-	user     = "jonas"
-	password = "l7RkCe5OmB1l78T7hVrbNwu8p9h7VZ9iOxiaCFnybReu8FzguT3XT17bfnWJLK6S"
-	dbname   = "blog"
-)
-
 type posts_struct struct {
 	Id string `json:"ID"`
 	Title string `json:"Title"`
@@ -59,8 +51,8 @@ func postsByID(c *gin.Context) {
 	conn.Close()
 
 	/*
-		post := [3]string{"Test1", "Test2", "Test3"}
-		id, err := strconv.ParseInt(c.Param("id"), 16, 64)
+			post := [3]string{"Test1", "Test2", "Test3"}
+			id, err := strconv.ParseInt(c.Param("id"), 16, 64)
 
 		fmt.Println(err)
 
