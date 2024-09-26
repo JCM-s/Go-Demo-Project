@@ -1,0 +1,49 @@
+:root {
+    --red: #E27D60;
+    --blue: #85DCB0;
+    --orange: #E8A87C;
+    --purple: #C38D9E;
+    --cyan: #41B3A3;
+    --green: #1c6470;
+    --yellow: #f8ec17;
+}
+
+body {
+    background-color: white;
+    font-family: Arial, 'MuseoSans';
+}
+
+.Blog {
+    border-radius: 5px;
+    background-color: var(--green);
+    margin: 20px;
+    padding: 5px;
+}
+
+.blogTitle {
+    color: var(--yellow);
+    margin: 5px;
+}
+
+.blogAutor {
+    color: white;
+    margin: 5px;
+}
+
+.blogNachricht {
+    color: white;
+    margin: 10px;
+}
+
+textarea {
+    height: 200px;
+    width: 50%;
+    resize: none;
+}
+
+#addBlogButton {
+    background-color: var(--yellow);
+    border: none;
+    border-radius: 5px;
+    padding: 8px;
+}
