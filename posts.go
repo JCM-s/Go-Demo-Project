@@ -44,8 +44,9 @@ func posts(c *gin.Context) {
 	}
 
 	//aus Tabelle blog1 in der DB werden die elemente id titel autor und nachricht genommen
-	rows, err := conn.Query("SELECT id, title, autor, nachricht FROM blog1")
+	rows, err := conn.Query("SELECT id, title, autor, nachricht FROM blog1 ORDER BY id asc")
 	if err != nil {
+		log.Fatal(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error1": err.Error()})
 		return
 	}

@@ -14,9 +14,12 @@ body {
 }
 
 .Blog {
+    width: 500;
     border-radius: 5px;
     background-color: var(--green);
-    margin: 20px;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
     padding: 5px;
 }
 
@@ -35,7 +38,7 @@ body {
     margin: 10px;
 }
 
-textarea {
+#nachricht {
     height: 200px;
     width: 50%;
     resize: none;
@@ -46,4 +49,43 @@ textarea {
     border: none;
     border-radius: 5px;
     padding: 8px;
+}
+
+.editButton {
+    background: none;
+    border: none;
+    padding: 2px;
+    margin: 0;
+}
+
+.editButton:hover {
+    visibility: visible;
+    background: none;
+    border: none;
+    padding: 2px;
+    margin: 0;
+    color:grey;
+    cursor: pointer;
+}
+
+.changeTextarea {
+    width: 95%;
+    height: 200px;
+    box-sizing: border-box;
+    margin: 10px;
+    overflow: hidden;
+    resize: none;
+}
+
+.Button {
+    background-color: var(--yellow);
+    border: none;
+    border-radius: 5px;
+    padding: 8px;
+    margin: 2px;
+    cursor: pointer;
+}
+
+.editButtonDiv {
+    text-align: right;
 }
